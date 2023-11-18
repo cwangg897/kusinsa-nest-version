@@ -6,13 +6,18 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entity/user.entity';
 import { CommonModule } from './common/common.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.dev.env',
+      isGlobal: true,
+    }),
     UserModule,
     AuthModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'mysql', // process로 1. 바꾸기 -> 2. 비동기로 바꾸기
       host: 'localhost',
       port: 3306,
       username: 'root',
@@ -22,6 +27,7 @@ import { CommonModule } from './common/common.module';
       synchronize: true,
     }),
     CommonModule,
+    ConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],
