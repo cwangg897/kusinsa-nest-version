@@ -18,4 +18,12 @@ export class AuthService {
       password: hash,
     });
   }
+
+  /**
+   * 토큰 로그인
+   * 0. 존재하는지 확인
+   * 1. 비밀번호 확인
+   * 2.
+   */
+
 }
