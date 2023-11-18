@@ -84,4 +84,11 @@ export class AuthService {
     }
     return this.generateToken(decoded, isRefreshToken);
   }
+
+  // 토큰에서 정보 추출
+  async getPayload(token: string) {
+    return this.jwtService.verify(token, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+  }
 }
