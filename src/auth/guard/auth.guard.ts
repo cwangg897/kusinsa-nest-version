@@ -23,7 +23,7 @@ export class TokeAuthGuard implements CanActivate {
     const split = rawToken.split(' ');
     // 토큰에서 정보뺴야할듯
     const payload = await this.authService.getPayload(split[1]);
-    if(payload.type !== 'accessToken'){
+    if (payload.type !== 'accessToken') {
       throw new UnauthorizedException('엑세스 토큰이 아닙니다');
     }
 
