@@ -67,7 +67,7 @@ export class AuthService {
     };
     return this.jwtService.sign(payload, {
       secret: this.configService.get<string>('JWT_SECRET'),
-      expiresIn: isRefreshToken ? 3600 : 300,
+      expiresIn: isRefreshToken ? 3600 : 7000,
     });
   }
 
@@ -87,7 +87,7 @@ export class AuthService {
 
   // 토큰에서 정보 추출
   async getPayload(token: string) {
-    return this.jwtService.verify(token, {
+    return await this.jwtService.verify(token, {
       secret: this.configService.get<string>('JWT_SECRET'),
     });
   }

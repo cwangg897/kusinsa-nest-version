@@ -11,9 +11,7 @@ export class RoleGuard implements CanActivate {
     private reflector: Reflector,
     private readonly authService: AuthService,
   ) {}
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     // HasRole로 넣은 메타데이터
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLE_KEY,
@@ -24,7 +22,7 @@ export class RoleGuard implements CanActivate {
      *
      */
     const req = context.switchToHttp().getRequest();
-    const user = req.user;
+    const user = await req.user;
     // role을 여러개 가질 수 있다면?...
     for (const role of requiredRoles) {
       if (role === UserRole.ALL) return true;

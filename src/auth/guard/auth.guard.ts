@@ -26,7 +26,6 @@ export class TokeAuthGuard implements CanActivate {
     if (payload.type !== 'accessToken') {
       throw new UnauthorizedException('엑세스 토큰이 아닙니다');
     }
-
     const user = this.userRepository.findByEmail(payload.email);
     req.user = user;
     req.token = split[1];
