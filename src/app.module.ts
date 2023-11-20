@@ -10,6 +10,9 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './auth/guard/role.guard';
+import { CategoryModule } from './category/category.module';
+import {Product} from './product/entity/product.entity';
+import {Category} from './category/entity/category.entity';
 
 @Module({
   imports: [
@@ -26,20 +29,19 @@ import { RoleGuard } from './auth/guard/role.guard';
       username: 'root',
       password: '1234',
       database: 'kusinsa',
-      entities: [User],
+      entities: [User, Product, Category],
       synchronize: true,
     }),
     CommonModule,
     ConfigModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RoleGuard,
-    },
-  ],
+  providers: [AppService],
+  // 프로바이더에 넣어야함 원래는 {
+  //       provide: APP_GUARD,
+  //       useClass: RoleGuard,
+  //     },
 })
 export class AppModule {}
