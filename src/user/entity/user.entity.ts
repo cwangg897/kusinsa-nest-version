@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import { UserRole } from '../enum/roles.enum';
 import { BaseModel } from '../../common/entity/base.entity';
 import {IsEmail, IsString, MaxLength, Min, MinLength} from 'class-validator';
@@ -25,4 +25,7 @@ export class User extends BaseModel {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

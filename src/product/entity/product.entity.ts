@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 import { BaseModel } from '../../common/entity/base.entity';
 import { Category } from '../../category/entity/category.entity';
 import { Min } from 'class-validator';
@@ -25,4 +31,7 @@ export class Product extends BaseModel {
     name: 'category_id',
   })
   category: Category;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  deletedAt: Date;
 }

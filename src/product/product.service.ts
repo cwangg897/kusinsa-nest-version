@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import { ProductRepository } from './entity/product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { CategoryRepository } from '../category/entity/category.repository';
@@ -63,5 +63,13 @@ export class ProductService {
     delete updateProduct.categoryName;
     // 당연히 그대로니까 변경이 안먹힘
     return this.productRepository.update(updateProduct);
+  }
+
+  async deleteProduct(id: number) {
+    const result = await this.productRepository.deleteById(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    return id;
   }
 }

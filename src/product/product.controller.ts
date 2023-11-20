@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Param,
   Patch,
   Post,
@@ -24,5 +25,10 @@ export class ProductController {
   @UseInterceptors(ClassSerializerInterceptor)
   async updateProduct(@Body() dto: UpdateProductDto, @Param('id') id: number) {
     return this.productService.updateProduct(dto, id);
+  }
+
+  @Delete(':id')
+  async deleteProduct(@Param('id') id: number) {
+    return this.productService.deleteProduct(id);
   }
 }
