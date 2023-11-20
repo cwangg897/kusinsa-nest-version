@@ -1,6 +1,15 @@
-import {Body, Controller, Post} from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductController {
@@ -9,5 +18,11 @@ export class ProductController {
   @Post()
   async createProduct(@Body() dto: CreateProductDto) {
     return this.productService.createProduct(dto);
+  }
+
+  @Patch(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async updateProduct(@Body() dto: UpdateProductDto, @Param('id') id: number) {
+    return this.productService.updateProduct(dto, id);
   }
 }

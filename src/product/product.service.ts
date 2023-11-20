@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from './entity/product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { CategoryRepository } from '../category/entity/category.repository';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -28,5 +29,39 @@ export class ProductService {
       throw new BadRequestException('중복되는 상품이름입니다');
     }
     return this.productRepository.create(dto, category);
+  }
+
+  /**
+   * 카테고리 변경도 가능하게 해야지
+   */
+  async updateProduct(dto: UpdateProductDto, id: number) {
+    // update는 product를가져와서 대체해서 save시킴
+    const product = await this.productRepository.findById(id);
+    if (!product) {
+      throw new BadRequestException('존재하지 않는 상품입니다');
+    }
+    //product에서 함께들고온 category를 업데이트해서 넣으면 안되는것인가?
+
+    let category;
+    let updateProduct;
+    if (dto.categoryName) {
+      category = await this.categoryRepository.findByName(dto.categoryName);
+      if (!category) {
+        throw new BadRequestException('존재하지 않는 카테고리입니다');
+      }
+      updateProduct = {
+        ...product,
+        ...dto,
+        category,
+      };
+    } else {
+      updateProduct = {
+        ...product,
+        ...dto,
+      };
+    }
+    delete updateProduct.categoryName;
+    // 당연히 그대로니까 변경이 안먹힘
+    return this.productRepository.update(updateProduct);
   }
 }

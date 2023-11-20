@@ -31,4 +31,27 @@ export class ProductRepository {
       },
     });
   }
+
+  async findById(id: number) {
+    return this.productRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async findByIdWithCategory(id: number) {
+    return this.productRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        category: true,
+      },
+    });
+  }
+
+  async update(product: Product) {
+    return this.productRepository.save(product);
+  }
 }
