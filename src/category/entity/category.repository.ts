@@ -20,8 +20,29 @@ export class CategoryRepository {
     });
   }
 
-  async save(dto: CreateCategoryDto) {
+  async create(dto: CreateCategoryDto) {
     const category = this.categoryRepository.create({ ...dto });
     return await this.categoryRepository.save(category);
+  }
+
+  async findAll() {
+    // paging
+    return this.categoryRepository.find({
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
+  async findById(id: number) {
+    return this.categoryRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async update(category: Category) {
+    return this.categoryRepository.save(category);
   }
 }
