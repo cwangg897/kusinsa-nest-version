@@ -45,4 +45,12 @@ export class CategoryRepository {
   async update(category: Category) {
     return this.categoryRepository.save(category);
   }
+
+  async findByName(name: string) {
+    return this.categoryRepository.findOne({
+      where: {
+        name,
+      },
+    });
+  }
 }
