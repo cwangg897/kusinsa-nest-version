@@ -6,7 +6,7 @@ import { HasRole } from '../auth/decorator/auth-role.decorator';
 import { UserRole } from '../user/enum/roles.enum';
 import { User } from '../user/entity/user.entity';
 import {LoginUser} from '../user/decorator/user.decorator';
-import {CreateOrderDto} from './dto/create-order.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Controller('orders')
 export class OrderController {

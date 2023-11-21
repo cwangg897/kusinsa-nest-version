@@ -59,7 +59,18 @@ export class ProductRepository {
     return this.productRepository.softDelete({ id });
   }
 
-  async createQueryRunner(){
+  async createQueryRunner() {
     return this.productRepository.manager.connection.createQueryRunner();
+  }
+
+  async count() {
+    return this.productRepository.count();
+  }
+
+  async findAll(limit: number, offset: number) {
+    return this.productRepository.find({
+      take: limit,
+      skip: offset,
+    });
   }
 }

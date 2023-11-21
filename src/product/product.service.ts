@@ -3,6 +3,9 @@ import { ProductRepository } from './entity/product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { CategoryRepository } from '../category/entity/category.repository';
 import { UpdateProductDto } from './dto/update-product.dto';
+import {ProductPaginationDto} from './dto/product-pagination.dto';
+import {Page} from '../common/page/page-response.dto';
+import {PageRequest} from '../common/page/page-request-dto';
 
 @Injectable()
 export class ProductService {
@@ -72,4 +75,11 @@ export class ProductService {
     }
     return id;
   }
+
+  async findAllProduct(page: PageRequest) {
+    const total = await this.productRepository.count();
+    const products = await this.productRepository.findAll(page.getLimit(), page.getOffset());
+    return new Page(total, page.pageSize, products);
+  }
 }
+

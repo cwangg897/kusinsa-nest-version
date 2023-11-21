@@ -3,14 +3,17 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { PageRequest } from '../common/page/page-request-dto';
 
 @Controller('products')
 export class ProductController {
@@ -30,5 +33,10 @@ export class ProductController {
   @Delete(':id')
   async deleteProduct(@Param('id') id: number) {
     return this.productService.deleteProduct(id);
+  }
+
+  @Get()
+  async findAllProduct(@Query() page: PageRequest) {
+    return this.productService.findAllProduct(page);
   }
 }
