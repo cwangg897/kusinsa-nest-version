@@ -15,6 +15,7 @@ import {Product} from './product/entity/product.entity';
 import {Category} from './category/entity/category.entity';
 import { OrderModule } from './order/order.module';
 import {Order} from './order/entity/order.entity';
+import {CacheModule} from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import {Order} from './order/entity/order.entity';
     ProductModule,
     CategoryModule,
     OrderModule,
+    CacheModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,17 +1,24 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ProductRepository } from './entity/product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { CategoryRepository } from '../category/entity/category.repository';
 import { UpdateProductDto } from './dto/update-product.dto';
-import {ProductPaginationDto} from './dto/product-pagination.dto';
-import {Page} from '../common/page/page-response.dto';
-import {PageRequest} from '../common/page/page-request-dto';
+import { Page } from '../common/page/page-response.dto';
+import { PageRequest } from '../common/page/page-request-dto';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly productRepository: ProductRepository,
     private readonly categoryRepository: CategoryRepository,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   /**
@@ -77,11 +84,20 @@ export class ProductService {
   }
 
   async findAllProduct(page: PageRequest) {
+    const cacheData = await this.cacheManager.get(`product:${page.pageNo}`);
+    if (cacheData) {
+      console.log('캐시작동');
+      return cacheData;
+    }
     const total = await this.productRepository.count();
     const products = await this.productRepository.findAll(
       page.getLimit(),
       page.getOffset(),
     );
-    return new Page(total, page.pageSize, products);
+    const result = new Page(total, page.pageSize, products);
+    await this.cacheManager.set(`product:${page.pageNo}`, result, 3000);
+    const cache = await this.cacheManager.get(`product:${page.pageNo}`);
+    console.log(cache);
+    return result;
   }
 }
