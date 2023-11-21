@@ -58,4 +58,8 @@ export class ProductRepository {
   async deleteById(id: number) {
     return this.productRepository.softDelete({ id });
   }
+
+  async createQueryRunner(){
+    return this.productRepository.manager.connection.createQueryRunner();
+  }
 }

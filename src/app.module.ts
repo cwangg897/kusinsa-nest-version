@@ -13,6 +13,7 @@ import { RoleGuard } from './auth/guard/role.guard';
 import { CategoryModule } from './category/category.module';
 import {Product} from './product/entity/product.entity';
 import {Category} from './category/entity/category.entity';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import {Category} from './category/entity/category.entity';
     ConfigModule,
     ProductModule,
     CategoryModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

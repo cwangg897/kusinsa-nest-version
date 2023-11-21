@@ -25,7 +25,4 @@ export class User extends BaseModel {
     default: UserRole.USER,
   })
   role: UserRole;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
 }
