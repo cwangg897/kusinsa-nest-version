@@ -78,8 +78,10 @@ export class ProductService {
 
   async findAllProduct(page: PageRequest) {
     const total = await this.productRepository.count();
-    const products = await this.productRepository.findAll(page.getLimit(), page.getOffset());
+    const products = await this.productRepository.findAll(
+      page.getLimit(),
+      page.getOffset(),
+    );
     return new Page(total, page.pageSize, products);
   }
 }
-
