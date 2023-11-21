@@ -44,6 +44,7 @@ export class OrderService {
         throw new BadRequestException('상품 수량이 부족합니다');
       }
       product.stock -= dto.quantity;
+      await queryRunner.manager.save(product);
       const findUser = await queryRunner.manager.findOne(User, {
         where: {
           id: user.id,
@@ -60,10 +61,9 @@ export class OrderService {
       await queryRunner.commitTransaction();
       return newOrder;
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw err;
     } finally {
-      // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
   }

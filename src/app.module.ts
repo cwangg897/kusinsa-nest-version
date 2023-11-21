@@ -14,6 +14,7 @@ import { CategoryModule } from './category/category.module';
 import {Product} from './product/entity/product.entity';
 import {Category} from './category/entity/category.entity';
 import { OrderModule } from './order/order.module';
+import {Order} from './order/entity/order.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { OrderModule } from './order/order.module';
       username: 'root',
       password: '1234',
       database: 'kusinsa',
-      entities: [User, Product, Category],
+      entities: [User, Product, Category, Order],
       synchronize: true,
     }),
     CommonModule,
