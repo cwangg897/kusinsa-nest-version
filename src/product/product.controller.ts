@@ -14,7 +14,6 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PageRequest } from '../common/page/page-request-dto';
-import {CacheInterceptor} from '@nestjs/cache-manager';
 
 @Controller('products')
 export class ProductController {
@@ -38,7 +37,6 @@ export class ProductController {
 
   // 작동을 하는지 모르겠음
   @Get()
-  @UseInterceptors(CacheInterceptor)
   async findAllProduct(@Query() page: PageRequest) {
     return this.productService.findAllProduct(page);
   }

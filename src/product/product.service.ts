@@ -96,8 +96,6 @@ export class ProductService {
     );
     const result = new Page(total, page.pageSize, products);
     await this.cacheManager.set(`product:${page.pageNo}`, result, 3000);
-    const cache = await this.cacheManager.get(`product:${page.pageNo}`);
-    console.log(cache);
     return result;
   }
 }

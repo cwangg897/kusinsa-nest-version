@@ -8,14 +8,13 @@ import { User } from './user/entity/user.entity';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RoleGuard } from './auth/guard/role.guard';
 import { CategoryModule } from './category/category.module';
-import {Product} from './product/entity/product.entity';
-import {Category} from './category/entity/category.entity';
+import { Product } from './product/entity/product.entity';
+import { Category } from './category/entity/category.entity';
 import { OrderModule } from './order/order.module';
-import {Order} from './order/entity/order.entity';
-import {CacheModule} from '@nestjs/cache-manager';
+import { Order } from './order/entity/order.entity';
+import { CacheModule } from '@nestjs/cache-manager';
+import * as redisCacheStore from 'cache-manager-ioredis';
 
 @Module({
   imports: [
@@ -40,7 +39,11 @@ import {CacheModule} from '@nestjs/cache-manager';
     ProductModule,
     CategoryModule,
     OrderModule,
-    CacheModule.register(),
+    CacheModule.register({
+      store: redisCacheStore,
+      host: 'localhost',
+      port: 6379,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

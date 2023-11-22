@@ -11,6 +11,8 @@ import { UserRepository } from '../user/entity/user.repository';
 import { DataSource } from 'typeorm';
 import { Product } from '../product/entity/product.entity';
 import { Order } from './entity/order.entity';
+import { PageRequest } from '../common/page/page-request-dto';
+import { Page } from '../common/page/page-response.dto';
 
 @Injectable()
 export class OrderService {
@@ -66,5 +68,15 @@ export class OrderService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async findAllOrder(user: User, page: PageRequest) {
+    const total = await this.orderRepository.count(user.id);
+    const data = await this.orderRepository.findAll(
+      user.id,
+      page.getLimit(),
+      page.getOffset(),
+    );
+    return new Page(total, page.pageSize, data);
   }
 }
