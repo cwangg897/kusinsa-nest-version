@@ -11,4 +11,14 @@ export class CreateProductDto extends PickType(Product, [
   @IsString()
   @Exclude({ toPlainOnly: true })
   categoryName: string; // 필수값이라서 optional이랑 ?를 안붙임
+
+  // constructor(
+  //   name: string,
+  //   price: number,
+  //   stock: number,
+  //   categoryName: string,
+  // ) {
+  //   super(name, price, stock);
+  //   this.categoryName = categoryName;
+  // }
 }

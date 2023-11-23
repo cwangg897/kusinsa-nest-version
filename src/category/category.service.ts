@@ -20,7 +20,7 @@ export class CategoryService {
   }
 
   async findById(id: number) {
-    return await this.categoryRepository.findById(id);
+    return this.categoryRepository.findById(id);
   }
 
   async updateById(dto: UpdateCategoryDto, id: number) {
